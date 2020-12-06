@@ -1,7 +1,6 @@
 import os
 import smtplib
 from _datetime import datetime
-from email.message import EmailMessage
 
 '''funktion requestet ip von ifconfig.me'''
 def external_ip_requester():
@@ -18,18 +17,19 @@ def external_ip_requester():
 Sendet plain text message
 '''
 def send_text():
-    with open(data.conf, "r") as data:
-        Data = data.readline()
+    with open("data.conf", "r") as data: #liest daten aus .conf file; Positionsabhängig!!!
+        Data = data.readlines()
     try:
-        message = 'Subject: {}\n\n{}'.format("Your current IP", "Your current IP is " + Data[2])
-        server = smtplib.SMTP_SSL("smtp.gmail.com", 465)
-        server.login(Data[0], Data[1])
-        server.sendmail(Data[0], Data[3], message)
+        message = 'Subject: {}\n\n{}'.format("Your current IP", "Your current IP is " + Data[2]) #erstellt message mit Data[2]=IP
+        server = smtplib.SMTP_SSL("smtp.gmail.com", 465) #funktionierrt nur für gmail server. Applikationszugriff uss aktiviert sein
+        server.login(Data[0], Data[1])  #Data[0]=your email; Data[1]=your Email password
+        server.sendmail(Data[0], Data[3], message) #Data[0]=your email; Data[3]=receiver email
         server.quit()
+        logging("Email was sent")
     except Exception as error:
         print("Error, couldn't send message")
         print(error)
-        logging("Couldn't send email")
+        logging("Couldn't send email;   " + str(error))
 
 
 def logging(TEXT):
@@ -38,7 +38,7 @@ def logging(TEXT):
     date = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     try:
         with open(file_location, "a+") as log:
-            log.write(date + ";   " + TEXT  + " \n")
+            log.write(date + ";   " + TEXT + " \n")
     except Exception as nopen1:
         print("Couldn't write to file")
         print(nopen1)
