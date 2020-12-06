@@ -42,3 +42,32 @@ def logging(TEXT):
     except Exception as nopen1:
         print("Couldn't write to file")
         print(nopen1)
+
+def schedule_task(frequency, time):
+    if os.popen('SCHTASKS | findstr /b ip_tracker').read()=="":
+        try:
+            os.popen('SCHTASKS /CREATE /SC ' + frequency + ' /TN "ip_tracker" /TR "C:\Users\waschgeht\ip_tracker\main.py" /ST ' + str(time))
+            logging("Task wurde erstellt")
+        except Exception as error:
+            logging("Fehler beim erstellen von Task; ", error)
+    else:
+        try:
+            os.popen('SCHTASKS /CHANGE /SC ' + frequency + ' /TN "ip_tracker" /ST ' + str(time))
+            logging("Task wurde erstellt")
+        except Exception as error:
+            logging("Fehler beim erstellen von Task; ", error)
+
+def  disable_task():
+    try:
+        os.popen('SCHTASKS /CHANGE /TN "ip_tracker" /DISABLE')
+        logging("Task disabled")
+    except Exception as error:
+        logging("Couldn't disable task; ", error)
+
+def enable_task():
+    try:
+        os.popen('SCHTASKS /CHANGE /TN "ip_tracker" /ENABLE')
+        logging("Task enabled")
+    except Exception as error:
+        logging("Couldn't enable task; ", error)
+
