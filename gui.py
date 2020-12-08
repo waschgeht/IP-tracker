@@ -1,5 +1,9 @@
 import tkinter as tk
 import ip_tracker.functions as f
+import ip_tracker.main as Main
+
+def CancelButton():
+    root.destroy()
 
 
 try:
@@ -31,7 +35,7 @@ try:
     e3.grid(row=0, column=4,padx=10, pady=10)
     frequence = tk.StringVar(root) #Variable for drop down menue
     frequence.set("hourly")  # default value
-    w = tk.OptionMenu(root, frequence, "hourly", "dayly", "weekly").grid(row=3, column=0,padx=10) #Dropdown choices
+    w = tk.OptionMenu(root, frequence, "hourly", "dayly", "weekly").grid(row=3, column=0,padx=10) #Dropdown choices for frequency of Task Scheduler
 
     EnableDiable = tk.StringVar(root) #Variable for drop down menue
     EnableDiable.set("enable")  # default value
@@ -50,7 +54,11 @@ try:
             e2.grid(row=1, column=1, padx=10, pady=10)
             e3.grid(row=0, column=4, padx=10, pady=10)
     EnableDiable.trace("w", toogle) #Tracks changes in the EnableDisable variable and calls the toggle function if so
+    '''Set Button, that Sets all the values from the widget'''
+    tk.Button(root, text="Apply Settings", command=Main.Main).grid(row=4, column=3, padx=5, pady=(100,5))
+    '''Cancel Button destroys the gui'''
+    tk.Button(root, text="Cancel", command=CancelButton).grid(row=4, column=4, padx=5, pady=(100,5))
     root.mainloop()
-except:
+except Exception as error:
     root.destroy()
-    f.logging("Gui failes")
+    f.logging("Gui failed; " + str(error))
