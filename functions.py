@@ -20,10 +20,10 @@ def send_text():
     with open("data.conf", "r") as data: #liest daten aus .conf file; Positionsabhängig!!!
         Data = data.readlines()
     try:
-        message = 'Subject: {}\n\n{}'.format("Your current IP", "Your current IP is " + Data[2]) #erstellt message mit Data[2]=IP
+        message = 'Subject: {}\n\n{}'.format("Your current IP", "Your current IP is " + Data[3]) #erstellt message mit Data[2]=IP
         server = smtplib.SMTP_SSL("smtp.gmail.com", 465) #funktionierrt nur für gmail server. Applikationszugriff uss aktiviert sein
         server.login(Data[0], Data[1])  #Data[0]=your email; Data[1]=your Email password
-        server.sendmail(Data[0], Data[3], message) #Data[0]=your email; Data[3]=receiver email
+        server.sendmail(Data[0], Data[2], message) #Data[0]=your email; Data[2]=receiver email
         server.quit()
         logging("Email was sent")
     except Exception as error:
@@ -71,5 +71,8 @@ def enable_task():
     except Exception as error:
         logging("Couldn't enable task; ", error)
 
+def WriteToFile(email, password, receiver, ip):
+    with open("data.conf", "w+") as file:
+        file.writelines([email, "\n", password, "\n", receiver, "\n", ip])
 
 
