@@ -1,16 +1,17 @@
 import tkinter as tk
 import ip_tracker.functions as f
-import ip_tracker.main as Main
+
 
 def CancelButton():
     root.destroy()
 
 def ApplyButton():
-    if EnableDiable=="disable":
+    if EnableDiable.get()=="disable":
         f.disable_task()
-    elif EnableDiable=="enable":
+    elif EnableDiable.get()=="enable":
         f.WriteToFile(e1.get(),e2.get(), e3.get(), f.external_ip_requester())
-        f.schedule_task(frequence, e4.get())
+        f.schedule_task(frequence.get(), e4.get())
+    root.destroy()
 
 try:
     root = tk.Tk()

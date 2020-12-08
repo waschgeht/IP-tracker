@@ -52,7 +52,8 @@ def schedule_task(frequency, time):
             logging("Fehler beim erstellen von Task; ", error)
     else:
         try:
-            os.popen('SCHTASKS /CHANGE /SC ' + frequency + ' /TN "ip_tracker" /ST ' + str(time))
+            os.popen('SCHTASKS /DELETE /TN "ip_tracker" /f')
+            os.popen('SCHTASKS /CREATE /SC ' + str(frequency) + ' /TN "ip_tracker" /TR "C:\\Users\\waschgeht\\ip_tracker\\main.py" /ST ' + str(time))
             logging("Task wurde erstellt")
         except Exception as error:
             logging("Fehler beim erstellen von Task; ", error)
