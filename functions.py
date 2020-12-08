@@ -17,7 +17,8 @@ def external_ip_requester():
 Sendet plain text message
 '''
 def send_text():
-    with open("data.conf", "r") as data: #liest daten aus .conf file; Positionsabhängig!!!
+    Path = str(os.path.dirname(os.path.realpath(__file__)))
+    with open(Path + "\\data.conf", "r") as data: #liest daten aus .conf file; Positionsabhängig!!!
         Data = data.readlines()
     try:
         message = 'Subject: {}\n\n{}'.format("Your current IP", "Your current IP is " + Data[3]) #erstellt message mit Data[2]=IP
@@ -33,8 +34,8 @@ def send_text():
 
 
 def logging(TEXT):
-    folder_loacation = os.getcwd()
-    file_location = folder_loacation + "\\email.log"
+    Path = str(os.path.dirname(os.path.realpath(__file__)))
+    file_location = Path + "\\email.log"
     date = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     try:
         with open(file_location, "a+") as log:
@@ -46,14 +47,14 @@ def logging(TEXT):
 def schedule_task(frequency, time):
     if os.popen('SCHTASKS | findstr /b ip_tracker').read()=="":
         try:
-            os.popen('SCHTASKS /CREATE /SC ' + str(frequency) + ' /TN "ip_tracker" /TR "C:\\Users\\waschgeht\\ip_tracker\\main.py" /ST ' + str(time))
+            os.popen('SCHTASKS /CREATE /SC ' + str(frequency) + ' /TN "ip_tracker" /TR "C:\\Users\\waschgeht\\ip_tracker\\start.bat" /ST ' + str(time))
             logging("Task wurde erstellt")
         except Exception as error:
             logging("Fehler beim erstellen von Task; ", error)
     else:
         try:
             os.popen('SCHTASKS /DELETE /TN "ip_tracker" /f')
-            os.popen('SCHTASKS /CREATE /SC ' + str(frequency) + ' /TN "ip_tracker" /TR "C:\\Users\\waschgeht\\ip_tracker\\main.py" /ST ' + str(time))
+            os.popen('SCHTASKS /CREATE /SC ' + str(frequency) + ' /TN "ip_tracker" /TR "C:\\Users\\waschgeht\\ip_tracker\\start.bat" /ST ' + str(time))
             logging("Task wurde erstellt")
         except Exception as error:
             logging("Fehler beim erstellen von Task; ", error)
@@ -73,7 +74,8 @@ def enable_task():
         logging("Couldn't enable task; ", error)
 
 def WriteToFile(email, password, receiver, ip):
-    with open("data.conf", "w+") as file:
+    Path = str(os.path.dirname(os.path.realpath(__file__)))
+    with open(Path + "\\data.conf", "w+") as file:
         file.writelines([email, "\n", password, "\n", receiver, "\n", ip])
 
 

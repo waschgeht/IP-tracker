@@ -1,5 +1,5 @@
 import tkinter as tk
-import ip_tracker.functions as f
+import functions as f
 
 
 def CancelButton():
