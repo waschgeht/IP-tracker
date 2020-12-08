@@ -46,7 +46,7 @@ def logging(TEXT):
 def schedule_task(frequency, time):
     if os.popen('SCHTASKS | findstr /b ip_tracker').read()=="":
         try:
-            os.popen('SCHTASKS /CREATE /SC ' + frequency + ' /TN "ip_tracker" /TR "C:\Users\waschgeht\ip_tracker\main.py" /ST ' + str(time))
+            os.popen('SCHTASKS /CREATE /SC ' + str(frequency) + ' /TN "ip_tracker" /TR "C:\\Users\\waschgeht\\ip_tracker\\main.py" /ST ' + str(time))
             logging("Task wurde erstellt")
         except Exception as error:
             logging("Fehler beim erstellen von Task; ", error)
@@ -71,4 +71,3 @@ def enable_task():
     except Exception as error:
         logging("Couldn't enable task; ", error)
 
-def generate_gui():

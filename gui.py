@@ -1,5 +1,5 @@
 import tkinter as tk
-#import waschgeht.functions as f
+import ip_tracker.functions as f
 
 
 try:
@@ -9,11 +9,12 @@ try:
     root.mainloop()
 except:
     root.destroy()
- #   f.logging("Startwindow failure")
+    f.logging("Startwindow failure")
 
 
 '''Gui buit up with grid'''
 try:
+    global e1, e2, e3
     root = tk.Tk()
     root.title("IP tracker") #titel
     tk.Label(root, text="Your Email").grid(row=0) #Label with Grid
@@ -28,16 +29,28 @@ try:
     e1.grid(row=0, column=1, padx=10, pady=10) #Padding applies to both sides x for x axis y for y axis
     e2.grid(row=1, column=1, padx=10, pady=10)
     e3.grid(row=0, column=4,padx=10, pady=10)
-
     frequence = tk.StringVar(root) #Variable for drop down menue
     frequence.set("hourly")  # default value
-    w = tk.OptionMenu(root, frequence, "hourly", "dayly", "weekly") #Dropdown choices
-    w.grid(row=3, column=0,padx=10)
+    w = tk.OptionMenu(root, frequence, "hourly", "dayly", "weekly").grid(row=3, column=0,padx=10) #Dropdown choices
 
-    variableEn = tk.StringVar(root) #Variable for drop down menue
-    variableEn.set("enable")  # default value
-    Enabler = tk.OptionMenu(root, variableEn, "enable", "disable")  # Dropdown choices
+    EnableDiable = tk.StringVar(root) #Variable for drop down menue
+    EnableDiable.set("enable")  # default value
+    Enabler = tk.OptionMenu(root, EnableDiable, "enable", "disable")  # Dropdown choices
     Enabler.grid(row=3, column=3, padx=10)
+    print(EnableDiable.get())
+    '''This function toggles the entry widgets away is the ip_tracker should be disabled'''
+    def toogle(*args):
+        global e1,e2, e3
+        if EnableDiable.get() == "disable":
+            e1.grid_forget()
+            e2.grid_forget()
+            e3.grid_forget()
+        elif EnableDiable.get() == "enable":
+            e1.grid(row=0, column=1, padx=10, pady=10)  # Padding applies to both sides x for x axis y for y axis
+            e2.grid(row=1, column=1, padx=10, pady=10)
+            e3.grid(row=0, column=4, padx=10, pady=10)
+    EnableDiable.trace("w", toogle) #Tracks changes in the EnableDisable variable and calls the toggle function if so
     root.mainloop()
 except:
     root.destroy()
+    f.logging("Gui failes")
