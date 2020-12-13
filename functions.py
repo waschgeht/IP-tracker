@@ -48,14 +48,14 @@ def schedule_task(frequency, time):
     Path = str(path.dirname(path.realpath(__file__)))
     if popen('SCHTASKS | findstr /b ip_tracker').read()=="":
         try:
-            popen('SCHTASKS /CREATE /SC ' + str(frequency) + ' /TN "ip_tracker" /TR ' + Path + '\\main.py" /ST ' + str(time))
+            popen('SCHTASKS /CREATE /SC ' + str(frequency) + ' /TN "ip_tracker" /TR "' + Path + '\\main.py" /ST ' + str(time))
             logging("Task wurde erstellt")
         except Exception as error:
             logging("Fehler beim erstellen von Task; ", error)
     else:
         try:
             popen('SCHTASKS /DELETE /TN "ip_tracker" /f')
-            popen('SCHTASKS /CREATE /SC ' + str(frequency) + ' /TN "ip_tracker" /TR  ' + Path + '\\main.py" /ST ' + str(time))
+            popen('SCHTASKS /CREATE /SC ' + str(frequency) + ' /TN "ip_tracker" /TR  "' + Path + '\\main.py" /ST ' + str(time))
             logging("Task wurde erstellt")
         except Exception as error:
             logging("Fehler beim erstellen von Task; ", error)
