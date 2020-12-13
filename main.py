@@ -1,16 +1,16 @@
 import functions as f
-import sys
-import os
+from sys import exit
+from os import path
 
 
 '''Main function thats gonna be startet by the schedules job!'''
 def Main():
-    Path = str(os.path.dirname(os.path.realpath(__file__)))
+    Path = str(path.dirname(path.realpath(__file__)))
     ip = f.external_ip_requester() #Requests email from ifconfig.me/ip
     with open(Path + "\\data.conf", "r") as data: #Ließt Daten ein und ändert nur Eintrag 4 (Ip)
         ReadData = data.readlines()
         if str(ReadData[3]) == str(ip):
-            sys.exit()
+            exit()
         else:
             ReadData[3] = str(ip)
 

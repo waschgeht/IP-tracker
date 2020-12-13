@@ -1,11 +1,11 @@
-import os
-import smtplib
+from os import popen, path
+from smtplib import SMTP_SSL
 from _datetime import datetime
 
 '''funktion requestet ip von ifconfig.me'''
 def external_ip_requester():
     try:
-        ip = str(os.popen("curl http://ifconfig.me/ip").read()) #.popen erzeugt keine Ausgabe am Screen
+        ip = str(popen("curl http://ifconfig.me/ip").read()) #.popen erzeugt keine Ausgabe am Screen
         int(ip[0]) #testet ob ausgabe eine IP ist. Erzeugt fehler wenn falsch und läuft in except block
         return ip
     except:
@@ -17,12 +17,12 @@ def external_ip_requester():
 Sendet plain text message
 '''
 def send_text():
-    Path = str(os.path.dirname(os.path.realpath(__file__)))
+    Path = str(path.dirname(path.realpath(__file__)))
     with open(Path + "\\data.conf", "r") as data: #liest daten aus .conf file; Positionsabhängig!!!
         Data = data.readlines()
     try:
         message = 'Subject: {}\n\n{}'.format("Your current IP", "Your current IP is " + Data[3]) #erstellt message mit Data[2]=IP
-        server = smtplib.SMTP_SSL("smtp.gmail.com", 465) #funktionierrt nur für gmail server. Applikationszugriff uss aktiviert sein
+        server = SMTP_SSL("smtp.gmail.com", 465) #funktionierrt nur für gmail server. Applikationszugriff uss aktiviert sein
         server.login(Data[0], Data[1])  #Data[0]=your email; Data[1]=your Email password
         server.sendmail(Data[0], Data[2], message) #Data[0]=your email; Data[2]=receiver email
         server.quit()
@@ -34,7 +34,7 @@ def send_text():
 
 
 def logging(TEXT):
-    Path = str(os.path.dirname(os.path.realpath(__file__)))
+    Path = str(path.dirname(path.realpath(__file__)))
     file_location = Path + "\\email.log"
     date = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     try:
@@ -45,36 +45,37 @@ def logging(TEXT):
         print(nopen1)
 
 def schedule_task(frequency, time):
-    if os.popen('SCHTASKS | findstr /b ip_tracker').read()=="":
+    Path = str(path.dirname(path.realpath(__file__)))
+    if popen('SCHTASKS | findstr /b ip_tracker').read()=="":
         try:
-            os.popen('SCHTASKS /CREATE /SC ' + str(frequency) + ' /TN "ip_tracker" /TR "C:\\Users\\waschgeht\\ip_tracker\\start.bat" /ST ' + str(time))
+            popen('SCHTASKS /CREATE /SC ' + str(frequency) + ' /TN "ip_tracker" /TR ' + Path + '\\main.py" /ST ' + str(time))
             logging("Task wurde erstellt")
         except Exception as error:
             logging("Fehler beim erstellen von Task; ", error)
     else:
         try:
-            os.popen('SCHTASKS /DELETE /TN "ip_tracker" /f')
-            os.popen('SCHTASKS /CREATE /SC ' + str(frequency) + ' /TN "ip_tracker" /TR "C:\\Users\\waschgeht\\ip_tracker\\start.bat" /ST ' + str(time))
+            popen('SCHTASKS /DELETE /TN "ip_tracker" /f')
+            popen('SCHTASKS /CREATE /SC ' + str(frequency) + ' /TN "ip_tracker" /TR  ' + Path + '\\main.py" /ST ' + str(time))
             logging("Task wurde erstellt")
         except Exception as error:
             logging("Fehler beim erstellen von Task; ", error)
 
 def  disable_task():
     try:
-        os.popen('SCHTASKS /CHANGE /TN "ip_tracker" /DISABLE')
+        popen('SCHTASKS /CHANGE /TN "ip_tracker" /DISABLE')
         logging("Task disabled")
     except Exception as error:
         logging("Couldn't disable task; ", error)
 
 def enable_task():
     try:
-        os.popen('SCHTASKS /CHANGE /TN "ip_tracker" /ENABLE')
+        popen('SCHTASKS /CHANGE /TN "ip_tracker" /ENABLE')
         logging("Task enabled")
     except Exception as error:
         logging("Couldn't enable task; ", error)
 
 def WriteToFile(email, password, receiver, ip):
-    Path = str(os.path.dirname(os.path.realpath(__file__)))
+    Path = str(path.dirname(path.realpath(__file__)))
     with open(Path + "\\data.conf", "w+") as file:
         file.writelines([email, "\n", password, "\n", receiver, "\n", ip])
 
