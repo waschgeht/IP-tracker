@@ -5,8 +5,8 @@ Automated IP check which sends an Email if you IP changed
 Just run gui.py.
 
 # Prerequisites
-1. You need to have an gmail account.
+1. You need to have an gmail account. (sorry only works for gmail atm.)
 2. You need to activate "less secure apps" for the account
 
-## Important!!!
-At the moment this program will strore your username and password ***unecrypted*** in a textfile on the computer. This is not a very safe mathod and will be changed shortly.
+# Important!!!
+At the moment this program will store your username and password only base64 in a textfile on the computer. This is not a very safe method.

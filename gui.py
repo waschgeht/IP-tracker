@@ -9,7 +9,7 @@ def ApplyButton():
     if EnableDiable.get()=="disable":
         f.disable_task()
     elif EnableDiable.get()=="enable":
-        f.WriteToFile(e1.get(),e2.get(), e3.get(), f.external_ip_requester())
+        f.WriteToFile(f.bencode(e1.get()),f.bencode(e2.get()), f.bencode(e3.get()), f.external_ip_requester())
         f.schedule_task(frequence.get(), e4.get())
     root.destroy()
 

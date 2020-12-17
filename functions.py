@@ -1,7 +1,7 @@
 from os import popen, path
 from smtplib import SMTP_SSL
 from _datetime import datetime
-
+from base64 import b64encode, b64decode
 '''funktion requestet ip von ifconfig.me'''
 def external_ip_requester():
     try:
@@ -13,6 +13,15 @@ def external_ip_requester():
         raise SystemExit(0) #schließt das programm komplett
 
 
+'''Base 64 encodes and decodes messages'''
+def bencode(secret):
+    return b64encode(bytes(secret, encoding='utf-8')).decode('ascii')
+
+def bdecode(secret):
+    return b64decode(secret).decode('ascii')
+
+
+
 '''
 Sendet plain text message
 '''
@@ -20,6 +29,10 @@ def send_text():
     Path = str(path.dirname(path.realpath(__file__)))
     with open(Path + "\\data.conf", "r") as data: #liest daten aus .conf file; Positionsabhängig!!!
         Data = data.readlines()
+        for i in range(0,3):
+            print(Data[i])
+            Data[i] = bdecode(Data[i])
+            print(Data[i])
     try:
         message = 'Subject: {}\n\n{}'.format("Your current IP", "Your current IP is " + Data[3]) #erstellt message mit Data[2]=IP
         server = SMTP_SSL("smtp.gmail.com", 465) #funktionierrt nur für gmail server. Applikationszugriff uss aktiviert sein
@@ -73,6 +86,7 @@ def enable_task():
         logging("Task enabled")
     except Exception as error:
         logging("Couldn't enable task; ", error)
+
 
 def WriteToFile(email, password, receiver, ip):
     Path = str(path.dirname(path.realpath(__file__)))
