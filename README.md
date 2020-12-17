@@ -9,4 +9,4 @@ Just run gui.py.
 2. You need to activate "less secure apps" for the account
 
 # Important!!!
-At the moment this program will store your username and password only base64 in a textfile on the computer. This is not a very safe method.
+At the moment this program will store your username and password only base64 encoded in a textfile on the computer. This is not a very safe method.

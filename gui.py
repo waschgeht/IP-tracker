@@ -15,6 +15,8 @@ def ApplyButton():
 
 try:
     root = tk.Tk()
+    root.iconbitmap(f.Pfad() + "\\icon.ico")
+    root.title("IP tracker")  # titel
     tk.Label(root, text="Please be aware, for this to work you need to \n enable less safer apps on gmail!\n To do so please follow this link: \n \n https://myaccount.google.com/lesssecureapps \n").pack()
     tk.Button(root, text="Ok", command=root.destroy).pack()
     root.mainloop()
@@ -27,6 +29,7 @@ except:
 try:
     global e1, e2, e3
     root = tk.Tk()
+    root.iconbitmap(f.Pfad() + "\\icon.ico")
     root.title("IP tracker") #titel
     tk.Label(root, text="Your Email").grid(row=0) #Label with Grid
     tk.Label(root, text="Your Password").grid(row=1)
@@ -36,7 +39,7 @@ try:
     tk.Label(root, text="Starttime").grid(row=2, column=1, pady=(30,0))
 
     e1 = tk.Entry(root) #Eingabefelder Email
-    e2 = tk.Entry(root) #Enter password
+    e2 = tk.Entry(root, show="*") #Enter password
     e3 = tk.Entry(root) #Enter receiver
     e4 = tk.Entry(root)  # Enter Starttime (Format 17:30)
 

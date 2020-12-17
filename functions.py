@@ -25,6 +25,10 @@ def bdecode(secret):
 '''
 Sendet plain text message
 '''
+def Pfad():
+    return str(path.dirname(path.realpath(__file__)))
+
+
 def send_text():
     Path = str(path.dirname(path.realpath(__file__)))
     with open(Path + "\\data.conf", "r") as data: #liest daten aus .conf file; Positionsabhängig!!!
