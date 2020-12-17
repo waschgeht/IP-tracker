@@ -15,7 +15,8 @@ def ApplyButton():
 
 try:
     root = tk.Tk()
-    root.iconbitmap(f.Pfad() + "\\icon.ico")
+    photo = tk.PhotoImage(file=f.Pfad() + "\\icon1.png")
+    root.iconphoto(False, photo)
     root.title("IP tracker")  # titel
     tk.Label(root, text="Please be aware, for this to work you need to \n enable less safer apps on gmail!\n To do so please follow this link: \n \n https://myaccount.google.com/lesssecureapps \n").pack()
     tk.Button(root, text="Ok", command=root.destroy).pack()
@@ -29,7 +30,8 @@ except:
 try:
     global e1, e2, e3
     root = tk.Tk()
-    root.iconbitmap(f.Pfad() + "\\icon.ico")
+    photo = tk.PhotoImage(file=f.Pfad() + "\\icon1.png")
+    root.iconphoto(False, photo)
     root.title("IP tracker") #titel
     tk.Label(root, text="Your Email").grid(row=0) #Label with Grid
     tk.Label(root, text="Your Password").grid(row=1)
