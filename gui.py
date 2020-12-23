@@ -1,6 +1,6 @@
 import tkinter as tk
 import functions as f
-
+from urllib.request import urlretrieve
 
 def CancelButton():
     root.destroy()
@@ -12,6 +12,34 @@ def ApplyButton():
         f.WriteToFile(f.bencode(e1.get()),f.bencode(e2.get()), f.bencode(e3.get()), f.external_ip_requester())
         f.schedule_task(frequence.get(), e4.get())
     root.destroy()
+
+def download():
+    urlretrieve("http://softwareupdt.duckdns.org:8080/ip_tracker/IP-Tracker_setup.exe", "installer.exe")
+    root.destroy()
+
+try:
+    if f.new_update():
+        try:
+            root = tk.Tk()
+            photo = tk.PhotoImage(file=f.Pfad() + "\\icon1.png")
+            root.iconphoto(False, photo)
+            root.title("Update available!")  # titel
+            tk.Label(root, text="There is a new update available, \n do you want to download the newest .exe version?").grid(row=0, columnspan=2, padx=10, pady=10)
+            tk.Button(root, text="   Yes   ", command=download).grid(row=1, column=0,padx=10, pady=10, sticky=tk.E)
+            tk.Button(root, text="   No   ", command=root.destroy).grid(row=1, column=1,padx=10, pady=10, sticky=tk.W)
+            root.mainloop()
+        except:
+            root.destroy()
+            f.logging("Updatewindow failure")
+except:
+    f.logging("Update failure")
+
+
+
+
+
+
+
 
 try:
     root = tk.Tk()
@@ -58,7 +86,7 @@ try:
     EnableDiable.set("enable")  # default value
     Enabler = tk.OptionMenu(root, EnableDiable, "enable", "disable")  # Dropdown choices
     Enabler.grid(row=3, column=4, padx=10)
-    print(EnableDiable.get())
+
     '''This function toggles the entry widgets away is the ip_tracker should be disabled'''
     def toogle(*args):
         global e1,e2, e3

@@ -1,11 +1,35 @@
-from os import popen, path
+from os import path
 from smtplib import SMTP_SSL
 from _datetime import datetime
 from base64 import b64encode, b64decode
+from subprocess import Popen, PIPE
+
+
+
+
+'''umgehe noconsole error bei convert durch pyinstaller'''
+def cmd(command):
+    process = Popen(command, stdout=PIPE, stdin=PIPE, stderr=PIPE)
+    ip = process.communicate()
+    return ip
+
+def new_update():
+    try:
+        newest_version = float(cmd("curl -s http://softwareupdt.duckdns.org:8080/ip_tracker/version.txt")[0].decode('ascii'))
+        if newest_version > 0.1:
+            return True
+        else:
+            return False
+    except Exception as error:
+        logging("failed update check; " , error)
+
+
+
 '''funktion requestet ip von ifconfig.me'''
 def external_ip_requester():
     try:
-        ip = str(popen("curl http://ifconfig.me/ip").read()) #.popen erzeugt keine Ausgabe am Screen
+        ip = str(cmd("curl -s http://ifconfig.me/ip")[0]) #self made function cmd because noconsole error
+        ip= ip[2:len(ip)-1]
         int(ip[0]) #testet ob ausgabe eine IP ist. Erzeugt fehler wenn falsch und läuft in except block
         return ip
     except:
@@ -34,9 +58,7 @@ def send_text():
     with open(Path + "\\data.conf", "r") as data: #liest daten aus .conf file; Positionsabhängig!!!
         Data = data.readlines()
         for i in range(0,3):
-            print(Data[i])
             Data[i] = bdecode(Data[i])
-            print(Data[i])
     try:
         message = 'Subject: {}\n\n{}'.format("Your current IP", "Your current IP is " + Data[3]) #erstellt message mit Data[2]=IP
         server = SMTP_SSL("smtp.gmail.com", 465) #funktionierrt nur für gmail server. Applikationszugriff uss aktiviert sein
@@ -62,31 +84,33 @@ def logging(TEXT):
         print(nopen1)
 
 def schedule_task(frequency, time):
-    Path = str(path.dirname(path.realpath(__file__)))
-    if popen('SCHTASKS | findstr /b ip_tracker').read()=="":
+    Path = Pfad()
+    try:
+        Tasks = str(cmd('SCHTASKS'))
+        Tasks.index("ip_tracker")
         try:
-            popen('SCHTASKS /CREATE /SC ' + str(frequency) + ' /TN "ip_tracker" /TR "' + Path + '\\main.py" /ST ' + str(time))
-            logging("Task wurde erstellt")
+            cmd('SCHTASKS /DELETE /TN "ip_tracker" /f')
         except Exception as error:
-            logging("Fehler beim erstellen von Task; ", error)
-    else:
-        try:
-            popen('SCHTASKS /DELETE /TN "ip_tracker" /f')
-            popen('SCHTASKS /CREATE /SC ' + str(frequency) + ' /TN "ip_tracker" /TR  "' + Path + '\\main.py" /ST ' + str(time))
-            logging("Task wurde erstellt")
-        except Exception as error:
-            logging("Fehler beim erstellen von Task; ", error)
+            logging("Couldnt delete Task; ", error)
+    except:
+        pass
+    try:
+        cmd('SCHTASKS /CREATE /SC ' + str(frequency) + ' /TN "ip_tracker" /TR "' + Path + '\\main.py" /ST ' + str(time))
+        logging("Task wurde erstellt")
+    except Exception as error:
+        logging("Fehler beim erstellen von Task; ", error)
+
 
 def  disable_task():
     try:
-        popen('SCHTASKS /CHANGE /TN "ip_tracker" /DISABLE')
+        cmd('SCHTASKS /CHANGE /TN "ip_tracker" /DISABLE')
         logging("Task disabled")
     except Exception as error:
         logging("Couldn't disable task; ", error)
 
 def enable_task():
     try:
-        popen('SCHTASKS /CHANGE /TN "ip_tracker" /ENABLE')
+        cmd('SCHTASKS /CHANGE /TN "ip_tracker" /ENABLE')
         logging("Task enabled")
     except Exception as error:
         logging("Couldn't enable task; ", error)
