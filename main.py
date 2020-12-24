@@ -5,7 +5,7 @@ from os import path
 
 '''Main function thats gonna be startet by the schedules job!'''
 def Main():
-    Path = str(path.dirname(path.realpath(__file__)))
+    Path = f.Pfad()
     ip = f.external_ip_requester() #Requests email from ifconfig.me/ip
     with open(Path + "\\data.conf", "r") as data: #Ließt Daten ein und ändert nur Eintrag 4 (Ip)
         ReadData = data.readlines()
