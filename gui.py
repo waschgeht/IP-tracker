@@ -1,6 +1,8 @@
 import tkinter as tk
 import functions as f
 from urllib.request import urlretrieve
+from tkinter import ttk
+import time
 
 def CancelButton():
     root.destroy()
@@ -13,10 +15,21 @@ def ApplyButton():
         f.schedule_task(frequence.get(), e4.get())
     root.destroy()
 
+def bar_update(bar, Wert):
+    bar['value'] = Wert
+    root.update_idletasks()
+    time.sleep(1)
+
 def download():
+    bar = ttk.Progressbar(root, orient="horizontal", length=200)
+    bar.grid(row=2, columnspan=2, padx=30, pady=20)
+    bar_update(bar, 0)
     urlretrieve("http://softwareupdt.duckdns.org:8080/ip_tracker/gui.py", "gui.py")
-    urlretrieve("http://softwareupdt.duckdns.org:8080/ip_tracker/gui.py", "functions.py")
-    urlretrieve("http://softwareupdt.duckdns.org:8080/ip_tracker/gui.py", "main.py")
+    bar_update(bar, 33)
+    urlretrieve("http://softwareupdt.duckdns.org:8080/ip_tracker/functions.py", "functions.py")
+    bar_update(bar, 66)
+    urlretrieve("http://softwareupdt.duckdns.org:8080/ip_tracker/main.py", "main.py")
+    bar_update(bar, 100)
     root.destroy()
 
 try:
@@ -29,6 +42,7 @@ try:
             tk.Label(root, text="There is a new update available, \n do you want to download the newest .exe version?").grid(row=0, columnspan=2, padx=10, pady=10)
             tk.Button(root, text="   Yes   ", command=download).grid(row=1, column=0,padx=10, pady=10, sticky=tk.E)
             tk.Button(root, text="   No   ", command=root.destroy).grid(row=1, column=1,padx=10, pady=10, sticky=tk.W)
+            tk.Label(root, text="     ").grid(row=2, columnspan=2, padx=30, pady=20)
             root.mainloop()
         except:
             root.destroy()
