@@ -35,12 +35,6 @@ except:
     f.logging("Update failure")
 
 
-
-
-
-
-
-
 try:
     root = tk.Tk()
     photo = tk.PhotoImage(file=f.Pfad() + "\\icon1.png")

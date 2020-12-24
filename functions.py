@@ -54,7 +54,7 @@ def Pfad():
 
 
 def send_text():
-    Path = str(path.dirname(path.realpath(__file__)))
+    Path = Pfad()
     with open(Path + "\\data.conf", "r") as data: #liest daten aus .conf file; Positionsabhängig!!!
         Data = data.readlines()
         for i in range(0,3):
@@ -73,7 +73,7 @@ def send_text():
 
 
 def logging(TEXT):
-    Path = str(path.dirname(path.realpath(__file__)))
+    Path = Pfad()
     file_location = Path + "\\email.log"
     date = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     try:
@@ -117,7 +117,7 @@ def enable_task():
 
 
 def WriteToFile(email, password, receiver, ip):
-    Path = str(path.dirname(path.realpath(__file__)))
+    Path = Pfad()
     with open(Path + "\\data.conf", "w+") as file:
         file.writelines([email, "\n", password, "\n", receiver, "\n", ip])
 
