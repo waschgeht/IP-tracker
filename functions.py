@@ -66,7 +66,7 @@ def send_text():
         server.sendmail(Data[0], Data[2], message) #Data[0]=your email; Data[2]=receiver email
         server.quit()
         logging("Email was sent")
-    except Exception as error
+    except Exception as error:
         logging("Couldn't send email;   " + str(error))
 
 
