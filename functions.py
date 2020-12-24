@@ -33,7 +33,7 @@ def external_ip_requester():
         int(ip[0]) #testet ob ausgabe eine IP ist. Erzeugt fehler wenn falsch und läuft in except block
         return ip
     except:
-        print("Couldnt get ip from http://ifconfig.me/ip")
+        logging("Couldnt get ip from http://ifconfig.me/ip")
         raise SystemExit(0) #schließt das programm komplett
 
 
@@ -66,9 +66,7 @@ def send_text():
         server.sendmail(Data[0], Data[2], message) #Data[0]=your email; Data[2]=receiver email
         server.quit()
         logging("Email was sent")
-    except Exception as error:
-        print("Error, couldn't send message")
-        print(error)
+    except Exception as error
         logging("Couldn't send email;   " + str(error))
 
 
@@ -80,7 +78,6 @@ def logging(TEXT):
         with open(file_location, "a+") as log:
             log.write(date + ";   " + TEXT + " \n")
     except Exception as nopen1:
-        print("Couldn't write to file")
         print(nopen1)
 
 def schedule_task(frequency, time):
