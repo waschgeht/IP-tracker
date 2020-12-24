@@ -4,9 +4,6 @@ from _datetime import datetime
 from base64 import b64encode, b64decode
 from subprocess import Popen, PIPE
 
-
-
-
 '''umgehe noconsole error bei convert durch pyinstaller'''
 def cmd(command):
     process = Popen(command, stdout=PIPE, stdin=PIPE, stderr=PIPE)
@@ -23,8 +20,6 @@ def new_update():
     except Exception as error:
         logging("failed update check; " , error)
 
-
-
 '''funktion requestet ip von ifconfig.me'''
 def external_ip_requester():
     try:
@@ -36,7 +31,6 @@ def external_ip_requester():
         logging("Couldnt get ip from http://ifconfig.me/ip")
         raise SystemExit(0) #schließt das programm komplett
 
-
 '''Base 64 encodes and decodes messages'''
 def bencode(secret):
     return b64encode(bytes(secret, encoding='utf-8')).decode('ascii')
@@ -44,14 +38,11 @@ def bencode(secret):
 def bdecode(secret):
     return b64decode(secret).decode('ascii')
 
-
-
 '''
 Sendet plain text message
 '''
 def Pfad():
     return str(path.dirname(path.realpath(__file__)))
-
 
 def send_text():
     Path = Pfad()
@@ -69,7 +60,6 @@ def send_text():
     except Exception as error:
         logging("Couldn't send email;   " + str(error))
 
-
 def logging(TEXT):
     Path = Pfad()
     file_location = Path + "\\email.log"
@@ -78,7 +68,7 @@ def logging(TEXT):
         with open(file_location, "a+") as log:
             log.write(date + ";   " + TEXT + " \n")
     except Exception as nopen1:
-        print(nopen1)
+        pass
 
 def schedule_task(frequency, time):
     Path = Pfad()
@@ -97,7 +87,6 @@ def schedule_task(frequency, time):
     except Exception as error:
         logging("Fehler beim erstellen von Task; ", error)
 
-
 def  disable_task():
     try:
         cmd('SCHTASKS /CHANGE /TN "ip_tracker" /DISABLE')
@@ -111,7 +100,6 @@ def enable_task():
         logging("Task enabled")
     except Exception as error:
         logging("Couldn't enable task; ", error)
-
 
 def WriteToFile(email, password, receiver, ip):
     Path = Pfad()

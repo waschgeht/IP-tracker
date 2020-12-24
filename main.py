@@ -1,6 +1,5 @@
 import functions as f
 from sys import exit
-from os import path
 
 
 '''Main function thats gonna be startet by the schedules job!'''
