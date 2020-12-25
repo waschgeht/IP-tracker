@@ -13,7 +13,7 @@ def cmd(command):
 def new_update():
     try:
         newest_version = float(cmd("curl --max-time 1 -s http://softwareupdt.duckdns.org:8080/ip_tracker/version.txt")[0].decode('ascii'))
-        if newest_version > 0.01:
+        if newest_version > 0.1:
             return True
         else:
             return False
