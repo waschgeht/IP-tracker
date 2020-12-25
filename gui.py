@@ -24,13 +24,25 @@ def download():
     bar = ttk.Progressbar(root, orient="horizontal", length=200)
     bar.grid(row=2, columnspan=2, padx=30, pady=20)
     bar_update(bar, 0)
-    urlretrieve("http://softwareupdt.duckdns.org:8080/ip_tracker/gui.py", "gui.py")
+    #urlretrieve("http://softwareupdt.duckdns.org:8080/ip_tracker/gui.py", "gui.py")
     bar_update(bar, 33)
-    urlretrieve("http://softwareupdt.duckdns.org:8080/ip_tracker/functions.py", "functions.py")
+    #urlretrieve("http://softwareupdt.duckdns.org:8080/ip_tracker/functions.py", "functions.py")
     bar_update(bar, 66)
-    urlretrieve("http://softwareupdt.duckdns.org:8080/ip_tracker/main.py", "main.py")
+    #urlretrieve("http://softwareupdt.duckdns.org:8080/ip_tracker/main.py", "main.py")
     bar_update(bar, 100)
     root.destroy()
+
+try:
+    root = tk.Tk()
+    photo = tk.PhotoImage(file=f.Pfad() + "\\icon1.png")
+    root.iconphoto(False, photo)
+    root.title("IP tracker")  # titel
+    tk.Label(root, text="Please be aware, for this to work you need to \n enable less safer apps on gmail!\n To do so please follow this link: \n \n https://myaccount.google.com/lesssecureapps \n").pack()
+    tk.Button(root, text="Ok", command=root.destroy).pack()
+    root.mainloop()
+except:
+    root.destroy()
+    f.logging("Startwindow failure")
 
 try:
     if f.new_update():
@@ -50,20 +62,6 @@ try:
 except:
     f.logging("Update failure")
 
-
-try:
-    root = tk.Tk()
-    photo = tk.PhotoImage(file=f.Pfad() + "\\icon1.png")
-    root.iconphoto(False, photo)
-    root.title("IP tracker")  # titel
-    tk.Label(root, text="Please be aware, for this to work you need to \n enable less safer apps on gmail!\n To do so please follow this link: \n \n https://myaccount.google.com/lesssecureapps \n").pack()
-    tk.Button(root, text="Ok", command=root.destroy).pack()
-    root.mainloop()
-except:
-    root.destroy()
-    f.logging("Startwindow failure")
-
-
 '''Gui buit up with grid'''
 try:
     global e1, e2, e3
@@ -76,17 +74,17 @@ try:
     tk.Label(root, text="Receiver Email").grid(row=0, column=3)
     tk.Label(root, text="Frequency").grid(row=2, pady=(30,0))
     tk.Label(root, text="Enable/Disable").grid(row=2, column=4, pady=(30,0))
-    tk.Label(root, text="Starttime").grid(row=2, column=1, pady=(30,0))
+    tk.Label(root, text="Starttime").grid(row=2, column=1, pady=(30,0), sticky=tk.W)
 
-    e1 = tk.Entry(root) #Eingabefelder Email
-    e2 = tk.Entry(root, show="*") #Enter password
-    e3 = tk.Entry(root) #Enter receiver
+    e1 = tk.Entry(root, width=40) #Eingabefelder Email
+    e2 = tk.Entry(root, show="*", width=40) #Enter password
+    e3 = tk.Entry(root, width=40) #Enter receiver
     e4 = tk.Entry(root)  # Enter Starttime (Format 17:30)
 
     e1.grid(row=0, column=1, padx=10, pady=10) #Padding applies to both sides x for x axis y for y axis
     e2.grid(row=1, column=1, padx=10, pady=10)
     e3.grid(row=0, column=4,padx=10, pady=10)
-    e4.grid(row=3, column=1, padx=10, pady=10)
+    e4.grid(row=3, column=1, padx=10, pady=10, sticky=tk.W)
 
     frequence = tk.StringVar(root) #Variable for drop down menue
     frequence.set("hourly")  # default value
