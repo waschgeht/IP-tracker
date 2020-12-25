@@ -13,6 +13,7 @@ def ApplyButton():
     elif EnableDiable.get()=="enable":
         f.WriteToFile(f.bencode(e1.get()),f.bencode(e2.get()), f.bencode(e3.get()), f.external_ip_requester())
         f.schedule_task(frequence.get(), e4.get())
+        f.send_text()
     root.destroy()
 
 def bar_update(bar, Wert):
