@@ -52,7 +52,7 @@ try:
             photo = tk.PhotoImage(file=f.Pfad() + "\\icon1.png")
             root.iconphoto(False, photo)
             root.title("Update available!")  # titel
-            tk.Label(root, text="There is a new update available, \n do you want to download the newest .exe version?").grid(row=0, columnspan=2, padx=10, pady=10)
+            tk.Label(root, text="There is a new update available, \n do you want to download the newest version?").grid(row=0, columnspan=2, padx=10, pady=10)
             tk.Button(root, text="   Yes   ", command=download).grid(row=1, column=0,padx=10, pady=10, sticky=tk.E)
             tk.Button(root, text="   No   ", command=root.destroy).grid(row=1, column=1,padx=10, pady=10, sticky=tk.W)
             tk.Label(root, text="     ").grid(row=2, columnspan=2, padx=30, pady=20)
