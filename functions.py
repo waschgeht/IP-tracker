@@ -105,5 +105,3 @@ def WriteToFile(email, password, receiver, ip):
     Path = Pfad()
     with open(Path + "\\data.conf", "w+") as file:
         file.writelines([email, "\n", password, "\n", receiver, "\n", ip])
-
-
